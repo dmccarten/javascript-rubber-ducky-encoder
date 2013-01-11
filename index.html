@@ -1,0 +1,76 @@
+<html>
+<head>
+	<!-- this is very important to pick the proper encoding -->
+	<meta charset="utf-8">
+	<title>USB rubber ducky encoder</title>
+</head>
+<body>
+
+<script>
+	var input_text =
+		"REM this is it folks!!!"
+		+ "DELAY 2500\n"
+		+ "GUI r\n"
+		+ "STRING iexplore -k http://www.stupid.com ꀆ2\n"
+		+ "ENTER\n";
+
+	// split up each line
+	var lines = input_text.split('\n');
+	for(var i = 0; i < lines.length; i++) {
+		parser(lines[i]);
+	}
+
+	// create our words then call the corresponding function
+	function parser(line) {
+		var words = line.split(" ");
+	
+		if(words[0] === "DEFAULT_DELAY") {
+
+		}
+		else if(words[0] === "DELAY") {
+			
+		}
+		else if(words[0] === "STRING") {
+			STRING(words);	
+		}
+		else if(words[0] === "GUI" || words[0] === "WINDOWS") {
+			GUI(words);
+		}
+		else if(words[0] === "REM") {
+			// do nothing
+		}
+		else {
+			
+		}
+	}
+
+	function GUI(words) {
+		for(var i = 1; i < words.length; i++) {
+			console.log(words[i]);
+		}
+	}
+
+	function STRING(words) {
+		// merge together the words
+		var string = words[1];
+		var buffer, arrays;
+		
+		for(var i = 2; i < words.length; i++) {
+			string += " " + words[i];
+		}
+		console.log(string);
+
+		buffer = new ArrayBuffer(2 * string.length);
+		var arrays = new Uint16Array(buffer);
+
+		//lets look at each character
+		for(var i = 0; i < string.length; i++) {
+			var char = string.charCodeAt(i).toString(16);
+			arrays[i] = string.charCodeAt(i);
+			console.log(string.charCodeAt(i) + " - " + char);
+		}
+		console.log(arrays);
+	}
+</script>
+</body>
+</html>
